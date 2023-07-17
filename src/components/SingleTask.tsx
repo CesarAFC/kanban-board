@@ -4,13 +4,14 @@ import { Task } from "../types/taskTypes";
 import { useTaskStore } from "../store/task";
 import React from "react";
 import {RiDraggable,  RiCloseCircleFill} from 'react-icons/ri'
+import { toast } from "react-hot-toast";
 
 type SingleTask = {
     task: Task | any,
     dragOverlay?: any
 }
 
-function SingleTask({task, dragOverlay}: SingleTask) {
+function SingleTask({task}: SingleTask) {
 
   const removeTask = useTaskStore(state => state.removeTask);
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
@@ -28,6 +29,7 @@ function SingleTask({task, dragOverlay}: SingleTask) {
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     // e.stopPropagation()
     removeTask(task.id)
+    toast('Task deleted', {icon: '💀'})
   }
 
   return (

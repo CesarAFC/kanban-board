@@ -160,6 +160,7 @@ function ThirdApp() {
         if (active.id !== over?.id) {
 
             setItemsGroups((prevState) => {
+              // Otra manera de hacerlo:
               // const oldIndex = people.indexOf(active.id);
               // const newIndex = people.indexOf(over.id);
               const oldIndex = prevState.findIndex( person => person.id === active.id);
@@ -169,7 +170,8 @@ function ThirdApp() {
             });
           }
     }
-
+    // Busca la tarea que estamos moviendo con el activeId state en la store
+    // Luego la pasa a: DragOverlay component
     const tastTry = itemsGroups.find( item => item.id === activeId)
   return (
     <div className="bg-slate-400 h-screen flex justify-center place-items-center gap-10">
@@ -179,12 +181,15 @@ function ThirdApp() {
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
+        {/* Toma el array de status para crear los 3 contenedores */}
         {StatusType.map((status) => {
           const filteredtask = filterTodosByStatus(status);
           return (
             <TaskContainer id={status} items={filteredtask} key={status} />
           );
         })}
+
+        {/* DragOverlay recibe la tarea que estamos moviendo */}
         <DragOverlay>
           {activeId ? <SingleItem item={tastTry} /> : null}
         </DragOverlay>

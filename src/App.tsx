@@ -1,4 +1,4 @@
-import {Toaster} from 'react-hot-toast'
+import {Toaster, toast} from 'react-hot-toast'
 import CreateTask from './components/CreateTask';
 import {DndContext, DragEndEvent, DragOverEvent, DragOverlay, DragStartEvent, PointerSensor, TouchSensor, closestCenter, useSensor, useSensors} from '@dnd-kit/core'
 import StatusComponent from './components/StatusComponent';
@@ -6,7 +6,6 @@ import { useTaskStore } from './store/task';
 import { arrayMove } from '@dnd-kit/sortable';
 import { useState } from 'react';
 import SingleTask from './components/SingleTask';
-import { Task } from './types/taskTypes';
 
 function App() {
 
@@ -46,12 +45,16 @@ function App() {
 
   const handleDragEnd = ({active, over}: DragEndEvent) => {
 
+
     if (active.id !== over?.id) {
       const oldIndex = taskStore.findIndex((person) => person.id === active.id);
       const newIndex = taskStore.findIndex((person) => person.id === over?.id);
       const newArray = arrayMove(taskStore, oldIndex, newIndex);
       updateIndex(newArray);
+    } else {
+      toast('Task status updated', {icon: '🎛️'})
     }
+
   }
   const tastTry = taskStore.find( item => item.id === activeId)
 

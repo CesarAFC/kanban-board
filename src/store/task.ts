@@ -32,7 +32,7 @@ export const useTaskStore = create(
                 }) )
             },
             updateTaskState: (taskId, newStatus) => {
-                console.log('from store', taskId, newStatus)
+                //downside: it loops through all the task
                 set( state => {
                   const updatedTasks = state.taskStore.map((task) =>
                     task.id === taskId ? { ...task, status: newStatus } : task
