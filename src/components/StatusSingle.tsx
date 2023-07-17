@@ -1,32 +1,33 @@
-import { useTaskStore } from "../store/task";
+import { useDroppable } from "@dnd-kit/core";
 import SingleTask from "./SingleTask";
 import StatusHeader from "./StatusHeader"
 import {SortableContext, verticalListSortingStrategy} from '@dnd-kit/sortable'
+import { Task } from "../types/taskTypes";
 
 type StatusProps = {
     status: string
+    tasks: Task[]
 }
 
-function StatusSingle({status}: StatusProps) {
+function StatusSingle({status, tasks}: StatusProps) {
 
-    const tasksStore = useTaskStore(store => store.taskStore);
-    console.log(tasksStore)
-    const filterTodosByStatus = (status: string) => {
-        return tasksStore.filter((todo) => todo.status === status);
-      };
+    const {setNodeRef} = useDroppable({id: status});
 
   return (
     <div className={`w-72 rounded-md p-2 bg-slate-200`}>
-      <StatusHeader header={status} />
+      <StatusHeader header={status} count={tasks.length} />
 
-      {/* Sortable here I guess */}
-      <div className="h-96">
-        <SortableContext items={tasksStore} strategy={verticalListSortingStrategy}>
-          {filterTodosByStatus(status).map((task) => (
+      <SortableContext
+        id={status}
+        items={tasks}
+        strategy={verticalListSortingStrategy}
+      >
+        <div ref={setNodeRef} className="flex flex-col gap-2 h-96">
+          {tasks.map((task) => (
             <SingleTask key={task.id} task={task} />
           ))}
-        </SortableContext>
-      </div>
+        </div>
+      </SortableContext>
     </div>
   );
 }
