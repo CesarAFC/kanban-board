@@ -9,7 +9,7 @@ const initialState = {
     group2: ["4", "5", "6"],
     group3: ["7", "8", "9"]
 }
-interface stateTypes {}
+// interface stateTypes {}
 interface StateIterator {
         [key: string]: string[];
 }
