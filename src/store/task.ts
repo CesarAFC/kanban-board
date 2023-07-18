@@ -8,6 +8,7 @@ type TaskStore = {
     newTask: (task: Task) => void,
     removeTask: (id: string) => void,
     updateTaskState: (taskId: string , newStatus: string) => void
+    editTask: (taskId: string , newTask: string) => void
 }
 
 export const useTaskStore = create(
@@ -37,7 +38,16 @@ export const useTaskStore = create(
                   const updatedTasks = state.taskStore.map((task) =>
                     task.id === taskId ? { ...task, status: newStatus } : task
                   );
-                  console.log(updatedTasks)
+                  return { taskStore: updatedTasks };
+                }
+                )
+              },
+            editTask: (taskId, newTask) => {
+                //downside: it loops through all the task
+                set( state => {
+                  const updatedTasks = state.taskStore.map((task) =>
+                    task.id === taskId ? { ...task, name: newTask } : task
+                  );
                   return { taskStore: updatedTasks };
                 }
                 )

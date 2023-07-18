@@ -6,6 +6,8 @@ import { useTaskStore } from './store/task';
 import { arrayMove } from '@dnd-kit/sortable';
 import { useState } from 'react';
 import SingleTask from './components/SingleTask';
+import { Task } from './types/taskTypes';
+import Modal from './components/Modal';
 
 function App() {
 
@@ -45,45 +47,48 @@ function App() {
 
   const handleDragEnd = ({active, over}: DragEndEvent) => {
 
+    // const activeContainer = active.data.current?.sortable.containerId;
+    // const overContainer = over?.data.current?.sortable.containerId || over?.id;
+    // toast('Task status updated', {icon: '🎛️'})
 
     if (active.id !== over?.id) {
       const oldIndex = taskStore.findIndex((person) => person.id === active.id);
       const newIndex = taskStore.findIndex((person) => person.id === over?.id);
       const newArray = arrayMove(taskStore, oldIndex, newIndex);
       updateIndex(newArray);
-    } else {
-      toast('Task status updated', {icon: '🎛️'})
-    }
+    } 
+    setActiveId(null)
 
   }
   const tastTry = taskStore.find( item => item.id === activeId)
 
   return (
-        <div className="bg-slate-300 w-screen h-screen flex flex-col items-center p-3 pt-32 gap-16">
-          <CreateTask />
-
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
-        onDragEnd={handleDragEnd}
-        onDragCancel={handleDragCancel}
-      >
-          <StatusComponent />
-
-        <DragOverlay
-          style={{ transformOrigin: "0 0" }}
-          dropAnimation={{
-            duration: 500,
-            easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
-          }}
+      <div className="bg-slate-300 w-screen h-screen flex flex-col items-center p-3 pt-32 gap-16">    
+        <CreateTask />
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
+          onDragCancel={handleDragCancel}
         >
-          {activeId ? <SingleTask task={tastTry} dragOverlay /> : null}
-        </DragOverlay>
+            <StatusComponent />
 
-        <Toaster />
-      </DndContext>
+          <DragOverlay
+            style={{ transformOrigin: "0 0" }}
+            dropAnimation={{
+              duration: 500,
+              easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
+            }}
+          >
+            {activeId ? <SingleTask task={tastTry as Task} /> : null}
+          </DragOverlay>
+          <Modal>
+            <h1>hi</h1>
+          </Modal>
+          <Toaster />
+        </DndContext>
       </div>
   );
 }

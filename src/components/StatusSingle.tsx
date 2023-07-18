@@ -22,7 +22,7 @@ function StatusSingle({status, tasks}: StatusProps) {
         items={tasks}
         strategy={verticalListSortingStrategy}
       >
-        <div ref={setNodeRef} className="flex flex-col gap-2 h-96">
+        <div ref={setNodeRef} className="flex flex-col gap-2 h-96 overflow-scroll">
           {tasks.map((task) => (
             <SingleTask key={task.id} task={task} />
           ))}
