@@ -2,19 +2,21 @@ import { useSortable } from "@dnd-kit/sortable";
 import {CSS} from '@dnd-kit/utilities'
 import { Task } from "../types/taskTypes";
 import { useTaskStore } from "../store/task";
-import { RiDraggable, RiCloseCircleLine, RiEdit2Line, RiCheckboxCircleLine, RiXingLine } from "react-icons/ri";
+import { RiDraggable, RiCloseCircleLine, RiEdit2Line, RiCheckboxCircleLine } from "react-icons/ri";
 import { toast } from "react-hot-toast";
 import { useEffect, useRef, useState } from "react";
+import Modal from "./Modal";
+import { useModal } from "../hooks/useModal";
 
 type SingleTask = {
     task: Task,
-    dragOverlay?: any
 }
 
 function SingleTask({task}: SingleTask) {
 
   const [isEditing, setIsEditing] = useState(false);
   const [newTask, setNewTask] = useState(task.name);
+  const [isModal1Open, toogleModal] = useModal(false);
 
   const {removeTask, editTask} = useTaskStore(state => state);
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
@@ -48,10 +50,13 @@ function SingleTask({task}: SingleTask) {
     toast('Task deleted', {icon: '💀'})
   }
 
+  const requestDelete = () => {
+    toogleModal();
+  }
+
   const handleSetEdit = () => {
     setIsEditing(true);
   }
-
 
   const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if(event.key == "Enter") {
@@ -71,13 +76,57 @@ function SingleTask({task}: SingleTask) {
       style={style}
       className={`bg-slate-100 relative p-4 shadow-md rounded-md opacity-100 flex justify-between`}
     >
-      { isEditing ? <input onKeyDown={handleEnter} className="rounded-md outline-none pl-2 transition" ref={inputRef} value={newTask} onChange={handleEditChange} /> : <h3>{task.name}</h3>}
+      {isEditing ? (
+        <input
+          onKeyDown={handleEnter}
+          className="rounded-md outline-none pl-2 transition"
+          ref={inputRef}
+          value={newTask}
+          onChange={handleEditChange}
+        />
+      ) : (
+        <h3>{task.name}</h3>
+      )}
       <div className="flex gap-1">
-        {isEditing && <button onClick={handleFinishEdit} className="rounded-sm transition hover:bg-gray-200"><RiCheckboxCircleLine /></button>}
-        {!isEditing && <button onClick={handleSetEdit} className="rounded-sm transition hover:bg-gray-200"><RiEdit2Line /></button>}
-        {!isEditing && <button onClick={handleDelete} className="rounded-full h-4 mt-1 transition hover:bg-red-200"><RiCloseCircleLine /></button>}
-        <button className="rounded-sm transition hover:bg-gray-200"  {...listeners}><RiDraggable size={20} /></button>
+        {isEditing && (
+          <button
+            onClick={handleFinishEdit}
+            className="rounded-sm transition hover:bg-gray-200"
+          >
+            <RiCheckboxCircleLine />
+          </button>
+        )}
+        {!isEditing && (
+          <button
+            onClick={handleSetEdit}
+            className="rounded-sm transition hover:bg-gray-200"
+          >
+            <RiEdit2Line />
+          </button>
+        )}
+        {!isEditing && (
+          <button
+            onClick={requestDelete}
+            className="rounded-full h-4 mt-1 transition hover:bg-red-200"
+          >
+            <RiCloseCircleLine />
+          </button>
+        )}
+        <button
+          className="rounded-sm transition hover:bg-gray-200"
+          {...listeners}
+        >
+          <RiDraggable size={20} />
+        </button>
       </div>
+
+      <Modal isOpen={isModal1Open} closeModal={toogleModal}>
+        <p className="py-5">Task will be deleted</p>
+        <div className="flex justify-around pb-1">
+          <button onClick={handleDelete} className="bg-emerald-300 px-2 py-1 rounded-md transition hover:bg-emerald-600">Ok</button>
+          <button onClick={toogleModal} className="border-2 border-slate-300 px-2 py-1 rounded-md transition hover:bg-slate-300">Cancel</button>
+        </div>
+      </Modal>
     </div>
   );
 }
