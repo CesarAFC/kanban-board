@@ -7,7 +7,7 @@ type StatusProps = {
 function StatusComponent({}: StatusProps) {
 
     // Different status for the todos
-    const taskState = ["todo", "inProgress", "closed"]; 
+    const taskState = ["todo", "inProgress", 'testing', "closed"]; 
     const tasksStore = useTaskStore(store => store.taskStore);
 
     const filterTodosByStatus = (status: string) => {
@@ -15,7 +15,7 @@ function StatusComponent({}: StatusProps) {
       };
 
   return (
-    <div className="flex gap-16">
+    <div className="flex gap-8 h-3/4">
       {
       taskState.map( status => {
 

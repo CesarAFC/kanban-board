@@ -12,6 +12,7 @@ function StatusHeader({header, count}: HeaderProps) {
     const headerStyle: HeaderStyle = {
         todo: 'bg-slate-500',
         inProgress: 'bg-purple-500',
+        testing: 'bg-red-500',
         closed: 'bg-green-500',
       }
 

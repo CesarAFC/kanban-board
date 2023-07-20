@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* html {
+html {
   font-family: "Avenir Next", "Avenir", sans-serif;
-} */
+}
 
 * {
   margin: 0;

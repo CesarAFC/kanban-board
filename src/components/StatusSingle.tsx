@@ -14,7 +14,7 @@ function StatusSingle({status, tasks}: StatusProps) {
     const {setNodeRef} = useDroppable({id: status});
 
   return (
-    <div className={`w-72 rounded-md p-2 bg-slate-200`}>
+    <div className={`w-80 h-full rounded-md p-2 bg-slate-200`}>
       <StatusHeader header={status} count={tasks.length} />
 
       <SortableContext

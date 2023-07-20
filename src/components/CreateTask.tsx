@@ -9,6 +9,7 @@ const initialTask =
         id: "",
         name: "",
         status: "todo", // inProgess or Closed
+        priority: 'low',
     }
 
 function CreateTask() {

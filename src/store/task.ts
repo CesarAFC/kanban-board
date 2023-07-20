@@ -9,6 +9,7 @@ type TaskStore = {
     removeTask: (id: string) => void,
     updateTaskState: (taskId: string , newStatus: string) => void
     editTask: (taskId: string , newTask: string) => void
+    changePriority: (taskId: string , newPriority: string) => void
 }
 
 export const useTaskStore = create(
@@ -51,7 +52,17 @@ export const useTaskStore = create(
                   return { taskStore: updatedTasks };
                 }
                 )
+              },
+            
+            changePriority: (taskId, newPriority) => {
+              set( state => {
+                const updatedTasks = state.taskStore.map((task) =>
+                  task.id === taskId ? { ...task, priority: newPriority } : task
+                );
+                return { taskStore: updatedTasks };
               }
+              )
+            },
             
         }), 
         {name: 'task'}  

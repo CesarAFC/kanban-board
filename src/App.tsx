@@ -69,7 +69,7 @@ function App() {
   const tastTry = taskStore.find((item) => item.id === activeId);
 
   return (
-    <div className="bg-slate-300 w-screen h-screen flex flex-col items-center p-3 pt-32 gap-16">
+    <div className="bg-slate-300 w-screen h-screen flex flex-col justify-center items-center p-3 gap-14">
       <CreateTask />
       <DndContext
         sensors={sensors}
