@@ -79,9 +79,6 @@ function SingleTask({task}: SingleTask) {
       className={`bg-slate-100 p-4 shadow-md rounded-md opacity-100 flex justify-between gap-1`}
     >
       <div className="flex flex-row gap-2">
-
-        <Popper id={task.id} priority={task.priority} />
-
         {isEditing ? (
           <input
             onKeyDown={handleEnter}
@@ -94,6 +91,10 @@ function SingleTask({task}: SingleTask) {
           <h3>{task.name}</h3>
         )}
       </div>
+
+
+      <Popper id={task.id} priority={task.priority} />
+
 
       <div className="flex gap-1">
         {isEditing && (
@@ -130,6 +131,8 @@ function SingleTask({task}: SingleTask) {
           <RiDraggable size={20} />
         </button>
       </div>
+
+
 
       <Modal isOpen={isModal1Open} closeModal={toogleModal}>
         <p className="py-5">Task will be deleted</p>

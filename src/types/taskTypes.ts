@@ -1,5 +1,5 @@
-type StatusTask = 'todo' | 'inProgress' | 'closed' | 'testing';
-type PriorityTask = 'low' | 'medium' | 'high';
+// type StatusTask = 'todo' | 'inProgress' | 'closed' | 'testing';
+// type PriorityTask = 'low' | 'medium' | 'high';
 
 
 export interface Task {

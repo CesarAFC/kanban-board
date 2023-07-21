@@ -18,12 +18,18 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { useState } from "react";
 import SingleTask from "./components/SingleTask";
 import { Task } from "./types/taskTypes";
+import { SecondPopper } from "./components/SecondPopper";
 
 function App() {
   const { taskStore, updateIndex, updateTaskState } = useTaskStore(
     (state) => state
   );
+
+
   const [activeId, setActiveId] = useState<string | null>();
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [referenceElement, setReferenceElement] = useState(null);
 
   // for input methods detection
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
@@ -71,6 +77,18 @@ function App() {
   return (
     <div className="bg-slate-300 w-screen h-screen flex flex-col justify-center items-center p-3 gap-14">
       <CreateTask />
+
+      {/* popper test */}
+      <button
+        type="button"
+        ref={setReferenceElement as any}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        Reference element
+      </button>
+      <SecondPopper isOpen={isOpen} referenceElement={referenceElement}/>
+
+
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

@@ -13,6 +13,8 @@ function StatusSingle({status, tasks}: StatusProps) {
 
     const {setNodeRef} = useDroppable({id: status});
 
+    // Aqui deberia ir la ref del pop y si esta abierto, quizas en la store? 
+
   return (
     <div className={`w-80 h-full rounded-md p-2 bg-slate-200`}>
       <StatusHeader header={status} count={tasks.length} />

@@ -3,6 +3,7 @@ import { usePopper } from 'react-popper';
 import { useModal } from '../hooks/useModal';
 import { FcHighPriority, FcLowPriority, FcMediumPriority } from "react-icons/fc";
 import { useTaskStore } from '../store/task';
+import { arrow } from '@popperjs/core';
 
 enum IconType {
     low = 'low',
@@ -34,19 +35,21 @@ const Popper = ({priority, id}: popperTypes) => {
   const [referenceElement, setReferenceElement] = useState(null);
   const [popperElement, setPopperElement] = useState(null);
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    placement: "top"
+    placement: "top",
+    modifiers: [arrow]
   });
 
   const {changePriority} = useTaskStore(state => state)
 
   const handlePriorityChange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    changePriority(id, event.target.value)
+    changePriority(id, event.currentTarget.value)
     toogleMenu();
   }
 
   return (
-    <>
+    <div>
       <button
+      className='p-2 transition hover:bg-slate-400 rounded-md' 
         onClick={toogleMenu}
         type="button"
         ref={setReferenceElement as any}
@@ -70,7 +73,7 @@ const Popper = ({priority, id}: popperTypes) => {
           Mid
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
